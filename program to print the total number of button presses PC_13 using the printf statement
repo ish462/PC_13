@@ -1,0 +1,22 @@
+#include "mbed.h"
+
+// Declare a DigitalIn object for the button on pin PC_13
+DigitalIn button(PC_13);  // PC_13 is the typical user button pin
+int press_count = 0; // Variable to count the number of presses
+
+int main() {
+    // Print the initial message
+    printf("Press the button to count presses...\n");
+
+    while (true) {
+        // Check if the button is pressed (active low)
+        if (button.read() == 0) {  // Button is pressed when the state is 0
+            press_count++; // Increment the press counter
+            printf("Button pressed %d times\n", press_count);
+            
+            // Debouncing: wait a short time to prevent multiple counts for a single press
+            // This is to avoid detecting the same press multiple times due to bouncing.
+            wait_us(300000); // Wait for 300ms (adjustable debounce time)
+        }
+    }
+}
